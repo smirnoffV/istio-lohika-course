@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend
+  namespace: istio-course
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - course-frontend-gateway
+  http:
+    - match:
+        - headers:
+            developer:
+              exact: vsmirnov
+          uri:
+            prefix: /frontend-catalog/api/v1/
+      rewrite:
+        uri: /api/v1/
+      route:
+        - destination:
+            host: frontend
+            subset: v2
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /frontend-catalog/api/v1/
+      rewrite:
+        uri: /api/v1/
+      route:
+        - destination:
+            host: frontend
+            subset: v1
+            port:
+              number: 3000
