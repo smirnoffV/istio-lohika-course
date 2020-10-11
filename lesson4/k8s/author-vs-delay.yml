@@ -11,7 +11,11 @@ spec:
         delay:
           fixedDelay: 10s
           percent: 100
-    - route:
+      match:
+        - headers:
+            injectDelay:
+              exact: true
+      route:
         - destination:
             host: authors
             subset: v1

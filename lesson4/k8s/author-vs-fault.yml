@@ -11,7 +11,11 @@ spec:
         abort:
           httpStatus: 500
           percent: 100
-    - route:
+      match:
+        - headers:
+            injectFault:
+              exact: true
+      route:
         - destination:
             host: authors
             subset: v1
